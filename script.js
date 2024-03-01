@@ -1,51 +1,74 @@
 const gameboard = (function(){
     let gameBoardArray = Array(9).fill(""); 
 
+    function createChildren(){
+        const gameboardDOM = document.querySelector(".gameboard"); 
+        gameBoardArray.forEach((tileElement, index)=>{
+            let tileContainer = document.createElement("button");
+            tileContainer.textContent = tileElement; 
+            tileContainer.classList.add("tile"); 
+            tileContainer.value = index; 
+            gameboardDOM.appendChild(tileContainer); 
+        })
+    }
+
+    function removeChildren(){
+        const tiles = document.querySelectorAll(".tile");
+        tiles.forEach((tile)=>tile.remove())
+    }
 
     const updateDOM = () => {
-        const gameboardDOM = document.querySelector(".gameboard"); 
-        gameboardDOM.replaceChildren(""); 
-        for (let index = 0; index < 9; index++){
-            let tile = document.createElement("button"); 
-            tile.textContent = gameBoardArray[index]; 
-            tile.classList.add("tile")
-            gameboardDOM.appendChild(tile); 
-        }
+        removeChildren(); 
+        createChildren(); 
     }
 
     const editArray = (index, value) => {
         gameBoardArray[index] = value; 
     }
+
+    //return winner if there is a winner in rows 
+    const checkRows = () =>{
+        console.log("placeholder"); 
+    }
+
+    const checkColumns = () => {
+        console.log("placeholder");
+    }
+
+    const checkDiagonals = () =>{
+        console.log("placeholder"); 
+    }
     
-    return {gameBoardArray, updateDOM, editArray};
+    return {gameBoardArray, updateDOM, editArray, checkRows};
 })();
-
-gameboard.editArray(8, "bottom-right");
-gameboard.updateDOM(); 
-
 //play round  
 const gameController = (function(){
+    gameboard.updateDOM();
     let playerTurn = 1; //1 for player1, 2 for player2
     //add event listener for each tile button
-    const allTiles = document.querySelectorAll(".tile"); 
-
-    allTiles.forEach((tile)=>{
-        console.log(tile); 
-        tile.addEventListener('click', ()=>{
-            if (playerTurn == 1 && tile.textContent === ""){
-                tile.textContent = "O"; 
-                playerTurn = 2; 
-            }
-            else if (playerTurn ==2 && tile.textContent === ""){
-                tile.textContent = "X";
-                playerTurn = 1; 
-            }
-        })
-        tileCount++; 
+    //loop through each tile and add event listener to edit array element 
+    
+    const gameboardDOM = document.querySelector(".gameboard"); 
+    gameboardDOM.addEventListener('click', (event)=>{
+        const tile = event.target; 
+        console.log(tile.value);
+        if (playerTurn == 1 && tile.textContent === ""){
+            gameboard.editArray(tile.value, "O");
+            playerTurn = 2; 
+            gameboard.updateDOM();
+        }
+        else if (playerTurn ==2 && tile.textContent === ""){
+            gameboard.editArray(tile.value, "X");
+            playerTurn = 1; 
+            gameboard.updateDOM();
+        }
+        console.log(gameboard.gameBoardArray);
     })
 })();
 
-function playRound(){
-    console.log("test"); 
-}
+
+
+
+
+
 
