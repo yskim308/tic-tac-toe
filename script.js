@@ -130,6 +130,8 @@ const gameController = (function(){
         }
     }
 
+
+
     return {continuePlaying}
 })();
 
@@ -138,6 +140,7 @@ let playerTurn = 1; //1 for player1, 2 for player2
 //add event listener for each tile button
 //loop through each tile and add event listener to edit array element 
 const gameboardDOM = document.querySelector(".gameboard"); 
+const dialog = document.querySelector("dialog"); 
 gameboardDOM.addEventListener('click', (event)=>{
     const tile = event.target; 
     if (playerTurn == 1 && tile.textContent === ""){
@@ -152,7 +155,7 @@ gameboardDOM.addEventListener('click', (event)=>{
     }
     let continuePlaying = gameController.continuePlaying(); 
     if (continuePlaying[0] == false){
-        alert("winner?");
+        dialog.show();
     }
 })
 
