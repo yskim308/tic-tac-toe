@@ -17,6 +17,8 @@ const gameboard = (function(){
         tiles.forEach((tile)=>tile.remove())
     }
 
+
+
     const updateDOM = () => {
         removeChildren(); 
         createChildren(); 
@@ -31,25 +33,41 @@ const gameboard = (function(){
         let xCount = 0; 
         let oCount = 0; 
         let colCount = 0; 
-        for (index = 0; index < 9; index++){
-            if (gameBoardArray[index] == 'X'){
-                xCount += 1; 
+        for (let row = 0; row < 3; row++){
+            for (let col = 0; col < 3; col ++){
+                index = row*3 + col; 
+                switch (gameBoardArray[index]){
+                    case "X": 
+                        xCount += 1; 
+                        break;
+                    case "O": 
+                        oCount += 1; 
+                }
+                if (xCount == 3 || oCount ==3){
+                    console.log("row winner detected");
+                }
             }
-            else if (gameBoardArray[index] == 'O'){
-                oCount += 1; 
-            }
-            colCount += 1; 
-            if (colCount == 2){
-                colCount = 0; 
-            }
-            if (xCount == 3 || oCount == 3){
-                console.log("someone wins in row"); 
-            }
+            xCount = 0; 
+            oCount = 0;
         }
     }
 
     const checkColumns = () => {
-        console.log("placeholder");
+        let xCount = 0; 
+        let oCount = 0; 
+        let index = 0; 
+        for (let col = 0; col < 3; col++){
+            for (let row = 0; row < 3; row++){
+                index = col + 3*row; 
+                if (gameBoardArray[index] == 'X'){
+                    xCount += 1; 
+                }
+                else if (gameBoardArray[index] == 'O'){
+                    oCount += 1; 
+                }
+            }
+
+        }
     }
 
     const checkDiagonals = () =>{
@@ -61,29 +79,28 @@ const gameboard = (function(){
 //play round  
 const gameController = (function(){
     gameboard.updateDOM();
-    let playerTurn = 1; //1 for player1, 2 for player2
-    //add event listener for each tile button
-    //loop through each tile and add event listener to edit array element 
-    
-    const gameboardDOM = document.querySelector(".gameboard"); 
-    gameboardDOM.addEventListener('click', (event)=>{
-        const tile = event.target; 
-        if (playerTurn == 1 && tile.textContent === ""){
-            gameboard.editArray(tile.value, "O");
-            playerTurn = 2; 
-            gameboard.updateDOM();
-        }
-        else if (playerTurn ==2 && tile.textContent === ""){
-            gameboard.editArray(tile.value, "X");
-            playerTurn = 1; 
-            gameboard.updateDOM();
-        }
-        gameboard.checkRows();
-        console.log(gameboard.gameBoardArray);
-    })
 })();
 
 
+let playerTurn = 1; //1 for player1, 2 for player2
+//add event listener for each tile button
+//loop through each tile and add event listener to edit array element 
+const gameboardDOM = document.querySelector(".gameboard"); 
+gameboardDOM.addEventListener('click', (event)=>{
+    const tile = event.target; 
+    if (playerTurn == 1 && tile.textContent === ""){
+        gameboard.editArray(tile.value, "O");
+        playerTurn = 2; 
+        gameboard.updateDOM();
+    }
+    else if (playerTurn ==2 && tile.textContent === ""){
+        gameboard.editArray(tile.value, "X");
+        playerTurn = 1; 
+        gameboard.updateDOM();
+    }
+    gameboard.checkRows();
+    console.log(gameboard.gameBoardArray);
+})
 
 
 
