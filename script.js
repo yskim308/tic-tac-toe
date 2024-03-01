@@ -28,7 +28,24 @@ const gameboard = (function(){
 
     //return winner if there is a winner in rows 
     const checkRows = () =>{
-        console.log("placeholder"); 
+        let xCount = 0; 
+        let oCount = 0; 
+        let colCount = 0; 
+        for (index = 0; index < 9; index++){
+            if (gameBoardArray[index] == 'X'){
+                xCount += 1; 
+            }
+            else if (gameBoardArray[index] == 'O'){
+                oCount += 1; 
+            }
+            colCount += 1; 
+            if (colCount == 2){
+                colCount = 0; 
+            }
+            if (xCount == 3 || oCount == 3){
+                console.log("someone wins in row"); 
+            }
+        }
     }
 
     const checkColumns = () => {
@@ -51,7 +68,6 @@ const gameController = (function(){
     const gameboardDOM = document.querySelector(".gameboard"); 
     gameboardDOM.addEventListener('click', (event)=>{
         const tile = event.target; 
-        console.log(tile.value);
         if (playerTurn == 1 && tile.textContent === ""){
             gameboard.editArray(tile.value, "O");
             playerTurn = 2; 
@@ -62,6 +78,7 @@ const gameController = (function(){
             playerTurn = 1; 
             gameboard.updateDOM();
         }
+        gameboard.checkRows();
         console.log(gameboard.gameBoardArray);
     })
 })();
