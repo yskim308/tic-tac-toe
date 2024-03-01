@@ -24,8 +24,8 @@ const gameboard = (function(){
         gameBoardArray[index1][index2] = value; 
     }
     
-    return {gameBoardArray, printGameboard, updateDOM, editArray}
-})()
+    return {gameBoardArray, printGameboard, updateDOM, editArray};
+})();
 
 gameboard.updateDOM(); 
 
@@ -37,14 +37,15 @@ const gameController = (function(){
     const allTiles = document.querySelectorAll(".tile"); 
     allTiles.forEach((tile)=>{
         tile.addEventListener('click', ()=>{
-            if (playerTurn == 1){
+            if (playerTurn == 1 && tile.textContent === ""){
                 tile.textContent = "O"; 
                 playerTurn = 2; 
             }
-            else{
+            else if (playerTurn ==2 && tile.textContent === ""){
                 tile.textContent = "X";
                 playerTurn = 1; 
             }
         })
     })
-})
+})();
+
