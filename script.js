@@ -48,6 +48,21 @@ const gameboard = (function(){
     }
 
     //return winner if there is a winner in rows 
+    const checkTie = () =>{
+        let occupiedTiles = 0; 
+        gameBoardArray.forEach((element)=>{
+            if (element !== ""){
+                occupiedTiles += 1; 
+            }
+        })
+        if (occupiedTiles == 9){
+            return [true, 0];
+        }
+        else {
+            return [false, 0]; 
+        }
+    }
+
     const checkRows = () =>{
         let xCount = 0; 
         let oCount = 0; 
@@ -115,7 +130,10 @@ const gameboard = (function(){
         return [false, 0];
     }
     
-    return {gameBoardArray, updateDOM, editArray, checkRows, checkColumns, checkDiagonals};
+    return {gameBoardArray, updateDOM, 
+        editArray, checkRows, 
+        checkColumns, checkDiagonals,
+        checkTie};
 })();
 
 //play round  
@@ -126,6 +144,7 @@ const gameController = (function(){
         let rows = gameboard.checkRows();
         let columns = gameboard.checkColumns(); 
         let diagonals = gameboard.checkDiagonals(); 
+        let tie = gameboard.checkTie(); 
         if (rows[0] == true){
             return [false, rows[1]];
         }
@@ -134,6 +153,9 @@ const gameController = (function(){
         }
         else if (diagonals[0] == true){
             return [false, diagonals[1]];
+        }
+        else if (tie[0] == true){
+            return [false, 0]; 
         }
         else{
             return [true, 0]; 
@@ -157,13 +179,14 @@ let playerTurn = 1; //1 for player1, 2 for player2
 const dialog = document.querySelector("dialog"); 
 const gameboardDOM = document.querySelector(".gameboard"); 
 gameboardDOM.addEventListener('click', (event)=>{
+    console.log("playerturn: " + playerTurn);
     const tile = event.target; 
-    if (playerTurn == 1 && tile.textContent === ""){
+    if (playerTurn == 1 && !tile.hasChildNodes()){
         gameboard.editArray(tile.value, "O");
         playerTurn = 2; 
         gameboard.updateDOM();
     }
-    else if (playerTurn ==2 && tile.textContent === ""){
+    else if (playerTurn ==2 && !tile.hasChildNodes()){
         gameboard.editArray(tile.value, "X");
         playerTurn = 1; 
         gameboard.updateDOM();
