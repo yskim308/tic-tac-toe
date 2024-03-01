@@ -130,17 +130,22 @@ const gameController = (function(){
         }
     }
 
+    const resetGame = () => {
+        gameboard.gameBoardArray.fill("");
+        gameboard.updateDOM(); 
+    }
 
 
-    return {continuePlaying}
+
+    return {continuePlaying, resetGame}
 })();
 
 
 let playerTurn = 1; //1 for player1, 2 for player2
 //add event listener for each tile button
 //loop through each tile and add event listener to edit array element 
-const gameboardDOM = document.querySelector(".gameboard"); 
 const dialog = document.querySelector("dialog"); 
+const gameboardDOM = document.querySelector(".gameboard"); 
 gameboardDOM.addEventListener('click', (event)=>{
     const tile = event.target; 
     if (playerTurn == 1 && tile.textContent === ""){
@@ -159,6 +164,12 @@ gameboardDOM.addEventListener('click', (event)=>{
     }
 })
 
+const resetButton = document.querySelector("#play-again");
+resetButton.addEventListener('click', ()=>{
+    gameController.resetGame();
+    console.log(gameboard.gameBoardArray);
+    dialog.close(); 
+})
 
 
 
