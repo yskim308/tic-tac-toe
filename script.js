@@ -1,41 +1,36 @@
 const gameboard = (function(){
-    let gameBoardArray = [ //0 to indicate empty 
-        ["","",""],
-        ["","",""],
-        ["","",""],
-    ]
-    const printGameboard = () => console.log(gameBoardArray);
+    let gameBoardArray = Array(9).fill(""); 
 
 
     const updateDOM = () => {
         const gameboardDOM = document.querySelector(".gameboard"); 
-        gameboardDOM.replaceChildren(); //remove children before adding 
-        for (let rows = 0; rows < 3; rows++ ){
-            for (let col = 0; col < 3; col++){
-                let tile = document.createElement("button"); 
-                tile.textContent = gameBoardArray[rows][col]; 
-                tile.classList.add("tile")
-                gameboardDOM.appendChild(tile); 
-            }
+        gameboardDOM.replaceChildren(""); 
+        for (let index = 0; index < 9; index++){
+            let tile = document.createElement("button"); 
+            tile.textContent = gameBoardArray[index]; 
+            tile.classList.add("tile")
+            gameboardDOM.appendChild(tile); 
         }
     }
 
-    const editArray = (index1, index2, value) => {
-        gameBoardArray[index1][index2] = value; 
+    const editArray = (index, value) => {
+        gameBoardArray[index] = value; 
     }
     
-    return {gameBoardArray, printGameboard, updateDOM, editArray};
+    return {gameBoardArray, updateDOM, editArray};
 })();
 
+gameboard.editArray(8, "bottom-right");
 gameboard.updateDOM(); 
 
 //play round  
 const gameController = (function(){
     let playerTurn = 1; //1 for player1, 2 for player2
-
     //add event listener for each tile button
     const allTiles = document.querySelectorAll(".tile"); 
+
     allTiles.forEach((tile)=>{
+        console.log(tile); 
         tile.addEventListener('click', ()=>{
             if (playerTurn == 1 && tile.textContent === ""){
                 tile.textContent = "O"; 
@@ -46,6 +41,11 @@ const gameController = (function(){
                 playerTurn = 1; 
             }
         })
+        tileCount++; 
     })
 })();
+
+function playRound(){
+    console.log("test"); 
+}
 
