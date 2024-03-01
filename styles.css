@@ -1,0 +1,23 @@
+body{
+    margin: 0;
+    height: 100vh; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.gameboard{
+    display: grid; 
+    width: 500px; 
+    height: 500px; 
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.tile:hover{
+    background-color: red;
+}
+
+.tile{
+    background: none; 
+}
