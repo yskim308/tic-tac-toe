@@ -5,7 +5,17 @@ const gameboard = (function(){
         const gameboardDOM = document.querySelector(".gameboard"); 
         gameBoardArray.forEach((tileElement, index)=>{
             let tileContainer = document.createElement("button");
-            tileContainer.textContent = tileElement; 
+            //tileContainer.textContent = tileElement; 
+            if (tileElement == 'X'){
+                const image = document.createElement("img");
+                image.src = "images/close.svg";
+                tileContainer.appendChild(image);
+            }
+            else if (tileElement == 'O'){
+                const image = document.createElement("img");
+                image.src = "images/circle.svg";
+                tileContainer.appendChild(image);
+            }
             tileContainer.classList.add("tile"); 
             tileContainer.value = index; 
             gameboardDOM.appendChild(tileContainer); 
