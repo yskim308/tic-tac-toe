@@ -17,7 +17,16 @@ const gameboard = (function(){
         tiles.forEach((tile)=>tile.remove())
     }
 
-
+    function counter(index) { //1 for x, 0 for o 
+        switch (gameBoardArray[index]){
+            case "X": 
+                return [0, 1];
+            case "O":
+                return [1, 0]; 
+            default:
+                return [0, 0]; 
+        }
+    }
 
     const updateDOM = () => {
         removeChildren(); 
@@ -35,20 +44,20 @@ const gameboard = (function(){
         for (let row = 0; row < 3; row++){
             for (let col = 0; col < 3; col ++){
                 let index = row*3 + col; 
-                switch (gameBoardArray[index]){
-                    case "X": 
-                        xCount += 1; 
-                        break;
-                    case "O": 
-                        oCount += 1; 
+                let check = counter(index); 
+                xCount += check[1]; 
+                oCount += check[0]; 
+                if (xCount == 3){
+                    return [true,'x'];
                 }
-                if (xCount == 3 || oCount == 3){
-                    console.log("row winner detected");
+                else if (oCount == 3){
+                    return [true, 'y']; 
                 }
             }
             xCount = 0; 
             oCount = 0;
         }
+        return [false, 0];
     }
 
     const checkColumns = () => {
@@ -57,20 +66,20 @@ const gameboard = (function(){
         for (let row = 0; row < 3; row++){
             for (let col = 0; col < 3; col++){
                 let index = row + col*3; 
-                switch (gameBoardArray[index]){
-                    case "X":
-                        xCount += 1; 
-                        break; 
-                    case "O":
-                        oCount += 1; 
+                let check = counter(index); 
+                xCount += check[1]; 
+                oCount += check[0]; 
+                if (xCount == 3){
+                    return [true, 'x']; 
                 }
-                if (xCount == 3 || oCount == 3){
-                    console.log("column winner detected");
+                else if (oCount == 3){
+                    return [true, 'o']; 
                 }
             }
             xCount = 0; 
             oCount = 0; 
         }
+        return [false, 0];
     }
 
     const checkDiagonals = () =>{
@@ -80,29 +89,48 @@ const gameboard = (function(){
             for (let j = 0; j < 3; j++){
                 let index; 
                 i == 0 ? index = i*2 + j*4: index = i*2 + j*2;
-                switch (gameBoardArray[index]){
-                    case "X": 
-                        xCount += 1; 
-                        break;
-                    case "O": 
-                        oCount += 1; 
-                        break;
+                let check = counter(index); 
+                xCount += check[1]; 
+                oCount += check[0]; 
+                if (xCount == 3){
+                    return [true, 'x']
                 }
-                if (xCount == 3 || oCount == 3){
-                    console.log("diagonal winner detected");
+                else if (oCount == 3){
+                    return [true, 'o']
                 }
             }
-            console.log("O count: " + oCount + " X count: " + xCount); 
             xCount = 0;
             oCount = 0;
         }
+        return [false, 0];
     }
     
     return {gameBoardArray, updateDOM, editArray, checkRows, checkColumns, checkDiagonals};
 })();
+
 //play round  
 const gameController = (function(){
     gameboard.updateDOM();
+
+    const continuePlaying = ()=>{
+        let rows = gameboard.checkRows();
+        let columns = gameboard.checkColumns(); 
+        let diagonals = gameboard.checkDiagonals(); 
+        if (rows[0] == true){
+            return [false, rows[1]];
+        }
+        else if (columns[0] == true){
+            return [false, columns[1]];
+        }
+        else if (diagonals[0] == true){
+            return [false, diagonals[1]];
+        }
+        else{
+            return [true, 0]; 
+        }
+    }
+
+    return {continuePlaying}
 })();
 
 
@@ -122,10 +150,10 @@ gameboardDOM.addEventListener('click', (event)=>{
         playerTurn = 1; 
         gameboard.updateDOM();
     }
-    gameboard.checkRows();
-    gameboard.checkColumns();
-    gameboard.checkDiagonals();
-    console.log(gameboard.gameBoardArray);
+    let continuePlaying = gameController.continuePlaying(); 
+    if (continuePlaying[0] == false){
+        alert("winner?");
+    }
 })
 
 
