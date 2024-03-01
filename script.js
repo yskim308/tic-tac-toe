@@ -32,10 +32,9 @@ const gameboard = (function(){
     const checkRows = () =>{
         let xCount = 0; 
         let oCount = 0; 
-        let colCount = 0; 
         for (let row = 0; row < 3; row++){
             for (let col = 0; col < 3; col ++){
-                index = row*3 + col; 
+                let index = row*3 + col; 
                 switch (gameBoardArray[index]){
                     case "X": 
                         xCount += 1; 
@@ -43,7 +42,7 @@ const gameboard = (function(){
                     case "O": 
                         oCount += 1; 
                 }
-                if (xCount == 3 || oCount ==3){
+                if (xCount == 3 || oCount == 3){
                     console.log("row winner detected");
                 }
             }
@@ -55,18 +54,22 @@ const gameboard = (function(){
     const checkColumns = () => {
         let xCount = 0; 
         let oCount = 0; 
-        let index = 0; 
-        for (let col = 0; col < 3; col++){
-            for (let row = 0; row < 3; row++){
-                index = col + 3*row; 
-                if (gameBoardArray[index] == 'X'){
-                    xCount += 1; 
+        for (let row = 0; row < 3; row++){
+            for (let col = 0; col < 3; col++){
+                let index = row + col*3; 
+                switch (gameBoardArray[index]){
+                    case "X":
+                        xCount += 1; 
+                        break; 
+                    case "O":
+                        oCount += 1; 
                 }
-                else if (gameBoardArray[index] == 'O'){
-                    oCount += 1; 
+                if (xCount == 3 || oCount == 3){
+                    console.log("column winner detected");
                 }
             }
-
+            xCount = 0; 
+            oCount = 0; 
         }
     }
 
@@ -74,7 +77,7 @@ const gameboard = (function(){
         console.log("placeholder"); 
     }
     
-    return {gameBoardArray, updateDOM, editArray, checkRows};
+    return {gameBoardArray, updateDOM, editArray, checkRows, checkColumns};
 })();
 //play round  
 const gameController = (function(){
@@ -99,6 +102,7 @@ gameboardDOM.addEventListener('click', (event)=>{
         gameboard.updateDOM();
     }
     gameboard.checkRows();
+    gameboard.checkColumns();
     console.log(gameboard.gameBoardArray);
 })
 
