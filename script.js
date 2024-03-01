@@ -74,10 +74,31 @@ const gameboard = (function(){
     }
 
     const checkDiagonals = () =>{
-        console.log("placeholder"); 
+        let xCount = 0; 
+        let oCount = 0; 
+        for (let i = 0; i < 2; i++){
+            for (let j = 0; j < 3; j++){
+                let index; 
+                i == 0 ? index = i*2 + j*4: index = i*2 + j*2;
+                switch (gameBoardArray[index]){
+                    case "X": 
+                        xCount += 1; 
+                        break;
+                    case "O": 
+                        oCount += 1; 
+                        break;
+                }
+                if (xCount == 3 || oCount == 3){
+                    console.log("diagonal winner detected");
+                }
+            }
+            console.log("O count: " + oCount + " X count: " + xCount); 
+            xCount = 0;
+            oCount = 0;
+        }
     }
     
-    return {gameBoardArray, updateDOM, editArray, checkRows, checkColumns};
+    return {gameBoardArray, updateDOM, editArray, checkRows, checkColumns, checkDiagonals};
 })();
 //play round  
 const gameController = (function(){
@@ -103,6 +124,7 @@ gameboardDOM.addEventListener('click', (event)=>{
     }
     gameboard.checkRows();
     gameboard.checkColumns();
+    gameboard.checkDiagonals();
     console.log(gameboard.gameBoardArray);
 })
 
