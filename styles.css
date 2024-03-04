@@ -1,3 +1,8 @@
+:root{
+    --header-color: #0284c7;
+    --background-color: #f0f9ff; 
+}
+
 body{
     margin: 0;
     height: 100vh; 
@@ -16,8 +21,8 @@ body{
 
 .gameboard{
     display: grid; 
-    width: 500px; 
-    height: 500px; 
+    width: clamp(250px, 35vw, 800px);
+    height: clamp(250px, 35vw, 800px);
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
 }
