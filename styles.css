@@ -58,6 +58,6 @@ body{
     background: none; 
 }
 
-.gameboard img{
+.gameboard svg{
     pointer-events: none;
 }

@@ -78,7 +78,7 @@ const gameboard = (function(){
                     return [true,'x'];
                 }
                 else if (oCount == 3){
-                    return [true, 'y']; 
+                    return [true, 'o']; 
                 }
             }
             xCount = 0; 
@@ -147,7 +147,7 @@ const gameController = (function(){
         let columns = gameboard.checkColumns(); 
         let diagonals = gameboard.checkDiagonals(); 
         let tie = gameboard.checkTie(); 
-        if (rows[0] == true){
+        if (rows[0] == true){ 
             return [false, rows[1]];
         }
         else if (columns[0] == true){
@@ -157,7 +157,7 @@ const gameController = (function(){
             return [false, diagonals[1]];
         }
         else if (tie[0] == true){
-            return [false, 0]; 
+            return [false, 2]; 
         }
         else{
             return [true, 0]; 
@@ -168,7 +168,6 @@ const gameController = (function(){
         gameboard.gameBoardArray.fill("");
         gameboard.updateDOM(); 
     }
-
 
 
     return {continuePlaying, resetGame}
@@ -194,7 +193,20 @@ gameboardDOM.addEventListener('click', (event)=>{
         gameboard.updateDOM();
     }
     let continuePlaying = gameController.continuePlaying(); 
-    if (continuePlaying[0] == false){
+    if (continuePlaying[0] == false){ 
+        svgDiv = document.querySelector("dialog .dialog-image");   
+        if (continuePlaying[1] == 'x'){
+            document.querySelector("dialog p").textContent = "Winner is: ";
+            svgDiv.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>close-outline</title><path d="M3,16.74L7.76,12L3,7.26L7.26,3L12,7.76L16.74,3L21,7.26L16.24,12L21,16.74L16.74,21L12,16.24L7.26,21L3,16.74M12,13.41L16.74,18.16L18.16,16.74L13.41,12L18.16,7.26L16.74,5.84L12,10.59L7.26,5.84L5.84,7.26L10.59,12L5.84,16.74L7.26,18.16L12,13.41Z" /></svg>';
+        }
+        else if (continuePlaying[1] == 'o'){
+            document.querySelector("dialog p").textContent = "Winner is: ";
+            svgDiv.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>circle-outline</title><path d="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" /></svg>' 
+        }
+        else {
+            document.querySelector("dialog p").textContent = "Tie!"; 
+        }
+        
         dialog.showModal();
     }
 })
