@@ -6,6 +6,14 @@ body{
     justify-content: space-between;
 }
 
+
+.wrapper{
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .gameboard{
     display: grid; 
     width: 500px; 
