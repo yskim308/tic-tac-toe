@@ -1,6 +1,12 @@
+*{
+    font-family: 'Roboto';
+}
+
 :root{
-    --header-color: #0284c7;
-    --background-color: #f0f9ff; 
+    --header-color: #cbd5e1;
+    --background-color: #f1f5f9; 
+    --font-color: #334155;
+    --hover-color: #cbd5e1;
 }
 
 body{
@@ -9,6 +15,7 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    background-color: var(--background-color);
 }
 
 
@@ -19,7 +26,20 @@ body{
     align-items: center;
 }
 
+.header{
+    width: 100%; 
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    background-color: var(--header-color);
+}
+.header h1{
+    font-size: 36px; 
+    color: var(--font-color)
+}
+
 .gameboard{
+    margin-top: 50px; 
     display: grid; 
     width: clamp(250px, 35vw, 800px);
     height: clamp(250px, 35vw, 800px);
@@ -28,7 +48,10 @@ body{
 }
 
 .tile:hover{
-    background-color: red;
+    background-color: var(--hover-color);
+}
+.tile:active{
+    background-color: var(--hover-color);
 }
 
 .tile{

@@ -195,7 +195,7 @@ gameboardDOM.addEventListener('click', (event)=>{
     }
     let continuePlaying = gameController.continuePlaying(); 
     if (continuePlaying[0] == false){
-        dialog.show();
+        dialog.showModal();
     }
 })
 
